@@ -216,6 +216,14 @@ def main():
     etat = {"vus": charger_vus(), "phase": None}
     erreurs = 0
 
+    # Mode "un seul passage" (GitHub Actions) : une vérification puis on s'arrête.
+    if os.environ.get("ONCE") == "1":
+        try:
+            cycle(client, etat)
+        except Exception as e:
+            log(f"Erreur : {e}")
+        return
+
     while True:
         debut = time.monotonic()
         try:
