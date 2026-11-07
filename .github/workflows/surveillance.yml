@@ -2,11 +2,11 @@ name: Surveillance CROUS
 
 on:
   schedule:
-    - cron: "*/5 * * * *"
-  workflow_dispatch:
+    - cron: "*/5 * * * *"   # toutes les 5 minutes (GitHub peut avoir du retard)
+  workflow_dispatch:         # permet de lancer à la main depuis l'onglet Actions
 
 permissions:
-  contents: write
+  contents: write            # pour sauvegarder logements_vus.json
 
 concurrency:
   group: crous
@@ -36,5 +36,6 @@ jobs:
             git config user.email "crous-bot@users.noreply.github.com"
             git add logements_vus.json
             git commit -m "maj logements vus"
+            git pull --rebase origin main
             git push
           fi
